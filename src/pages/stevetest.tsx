@@ -11,9 +11,13 @@ export default function SteveTestPage() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify([
+                // {
+                //     provider: 'gitlab',
+                //     username: 'jonstr.osdev',
+                // },
                 {
-                    provider: 'gitlab',
-                    username: 'jonstr.osdev',
+                    provider: 'github',
+                    username: 'stephengrice',
                 },
             ])
         });
