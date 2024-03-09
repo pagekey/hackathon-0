@@ -1,4 +1,4 @@
-import { Account } from '@/pages/models/Account';
+import { Account } from '@/models/Account';
 import { Flex, Button } from '@mantine/core';
 
 export interface AccountListItemProps {

@@ -1,4 +1,4 @@
-import { Account } from '@/pages/models/Account';
+import { Account } from '@/models/Account';
 import { Stack } from '@mantine/core';
 import { AccountListItem } from './AccountListItem';
 
