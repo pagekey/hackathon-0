@@ -1,8 +1,5 @@
 from fastapi import FastAPI
-from dotenv import load_dotenv
 from email_agent_api.routes import user, generate_email, register
-
-load_dotenv()
 
 app = FastAPI()
 
