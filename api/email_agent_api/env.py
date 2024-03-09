@@ -4,3 +4,5 @@ from dotenv import load_dotenv
 load_dotenv()
 
 OPENAI_API_KEY: str = os.environ["OPENAI_API_KEY"]
+LLM_ENDPOINT_TYPE: str = os.environ.get("LLM_ENDPOINT_TYPE", "OPENAI")
+LLM_MODEL_NAME: str = os.environ.get("LLM_MODEL_NAME", "gpt-3.5-turbo-0125")
