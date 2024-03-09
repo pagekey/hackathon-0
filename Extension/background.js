@@ -30,7 +30,7 @@ function loadScript(url){
 function authorize(){
   gapi.auth.authorize(
 		{
-			client_id: '<clientid>',
+			client_id: '336332834621-6mku9gauqh3l6j0j472iimjdumsnrglj.apps.googleusercontent.com',
 			immediate: true,
 			scope: 'https://www.googleapis.com/auth/gmail.modify'
 		},
