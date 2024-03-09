@@ -13,7 +13,7 @@ export default function SteveTestPage() {
             body: JSON.stringify([
                 {
                     provider: 'gitlab',
-                    username: 'stephengrice',
+                    username: 'jonstr.osdev',
                 },
             ])
         });
