@@ -4,13 +4,18 @@ import { AccountListItem } from './AccountListItem';
 
 export interface AccountListProps {
   accounts: Account[];
+  onAccountRemove: (account: Account) => any;
 }
 
-export const AccountList: React.FC<AccountListProps> = ({ accounts }) => {
+export const AccountList: React.FC<AccountListProps> = ({ accounts, onAccountRemove }) => {
   return (
     <Stack>
       {accounts.map((account: Account) => (
-        <AccountListItem key={account.provider + account.username} account={account} />
+        <AccountListItem
+          key={account.provider + account.username}
+          account={account}
+          onAccountRemove={() => onAccountRemove(account)}
+        />
       ))}
     </Stack>
   );

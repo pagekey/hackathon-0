@@ -31,7 +31,11 @@ export const AddAccount: React.FC<AddAccountProps> = ({ onAccountAdd }) => {
         value={selectedAccount}
         data={['GitHub', 'GitLab']}
       />
-      <Button onClick={() => handleAccountAdd()} disabled={!username || !selectedAccount}>
+      <Button
+        onClick={() => handleAccountAdd()}
+        disabled={!username || !selectedAccount}
+        style={{ marginTop: 10 }}
+      >
         Add Account
       </Button>
     </div>
