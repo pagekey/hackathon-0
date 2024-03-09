@@ -6,8 +6,7 @@ from pydantic import BaseModel
 
 from email_agent_api import env
 
-stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
-STRIPE_PRICE_ID = os.getenv('STRIPE_PRICE_ID')
+stripe.api_key = env.STRIPE_SECRET_KEY
 
 class User(BaseModel):
     email: str
@@ -57,7 +56,7 @@ def _check_if_paid_on_stripe(email: str):
             for item in items:
                 plan_active = item['price']['active']
                 price_id = item['price']['id']
-                if price_id == STRIPE_PRICE_ID and plan_active:
+                if price_id == env.STRIPE_PRICE_ID and plan_active:
                     return True
         return False
     except stripe.error.StripeError as e:
