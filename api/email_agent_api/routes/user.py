@@ -8,6 +8,6 @@ router = APIRouter()
 @router.get("/")
 def get_user_status(email: str) -> dict[str, Any]:
     if check_if_paid(email):
-        return {"active": True, "stripe_url": env.STRIPE_CHECKOUT_URL}
+        return {"active": True}
     else:
-        return {"active": True, "stripe_url": env.STRIPE_CHECKOUT_URL}
+        return {"active": False, "stripe_url": env.STRIPE_CHECKOUT_URL}
