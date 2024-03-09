@@ -1,5 +1,3 @@
-console.log("popup.js");
-
 const API_URL = 'http://0.0.0.0:8000';
 
 // Handlers
@@ -8,9 +6,38 @@ const onLoad = async () => {
   await handleAuthCheck();
 };
 
+const getCurrentTabTitle = () =>
+  new Promise((resolve) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      resolve(tabs[0].title);
+    });
+  });
+
+const getEmailFromString = (stringToCheck) => {
+  const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/;
+  const match = stringToCheck.match(emailRegex);
+
+  if (match) {
+    return match[0];
+  } else {
+    return null;
+  }
+};
+
+const getUserEmail = async () => {
+  const tabTitle = await getCurrentTabTitle();
+  return getEmailFromString(tabTitle);
+};
+
 const handleAuthCheck = async () => {
+  const email = await getUserEmail();
+
+  if (!email) {
+    return;
+  }
+
   const res = await fetch(API_URL + '/api/user/', {
-    email: 'test@test.com',
+    email,
   });
 
   const status = await res.json();
@@ -47,4 +74,3 @@ window.addEventListener('DOMContentLoaded', onLoad, false);
 document.getElementById('purchase-refresh').addEventListener('click', async () => {
   await handleAuthCheck();
 });
-
