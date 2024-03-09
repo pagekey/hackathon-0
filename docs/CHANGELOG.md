@@ -1,3 +1,10 @@
+# [1.3.0](https://gitlab.com/pagekey-internal/hackathon/email-agent/compare/1.2.0...1.3.0) (2024-03-09)
+
+
+### Features
+
+* Create simple extension ([a162bd4](https://gitlab.com/pagekey-internal/hackathon/email-agent/commit/a162bd45fcac39f9a8589cfe869ba8fb400358ff))
+
 # [1.2.0](https://gitlab.com/pagekey-internal/hackathon/email-agent/compare/1.1.0...1.2.0) (2024-03-09)
 
 
