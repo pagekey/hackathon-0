@@ -2,7 +2,8 @@ FROM python:3.10-slim-buster
 
 WORKDIR /usr/src/app
 
-COPY pyproject.toml poetry.lock README.md ./
+COPY pyproject.toml poetry.lock ./
+RUN touch README.md
 
 RUN pip install poetry \
     && poetry export --without-hashes --format=requirements.txt > requirements.txt \
