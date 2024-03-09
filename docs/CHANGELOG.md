@@ -1,3 +1,10 @@
+# [1.4.0](https://gitlab.com/pagekey-internal/hackathon/email-agent/compare/1.3.0...1.4.0) (2024-03-09)
+
+
+### Features
+
+* Add helm chart ([7c58567](https://gitlab.com/pagekey-internal/hackathon/email-agent/commit/7c58567d43c5122218e01e9dd66897cf3202908d)), closes [#4](https://gitlab.com/pagekey-internal/hackathon/email-agent/issues/4)
+
 # [1.3.0](https://gitlab.com/pagekey-internal/hackathon/email-agent/compare/1.2.0...1.3.0) (2024-03-09)
 
 
