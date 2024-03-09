@@ -4,7 +4,7 @@ from fastapi.responses import StreamingResponse
 from email_agent_api.get_llm_instance import get_llm_instance
 from langchain.llms.base import BaseLLM
 from email_agent_api.routes.example_emails import ALL_EMAILS
-from email_agent_api.lib.send_message import get_llm_message_stream
+from email_agent_api.lib.get_llm_message_stream import get_llm_message_stream
 
 router = APIRouter()
 llm_instance: BaseLLM = get_llm_instance()
