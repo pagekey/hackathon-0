@@ -8,10 +8,11 @@ from email_agent_api.lib.get_llm_message_stream import get_llm_message_stream
 router = APIRouter()
 llm_instance: BaseLLM = get_llm_instance()
 
-EMAIL_GENERATION_SYSTEM_PROMPT = """You you are an email generation service acting as {user_email}. Given a list of previous
+EMAIL_GENERATION_SYSTEM_PROMPT = """You are an email generation service acting as {user_email}. Given a list of previous
 emails above in the thread along with the name of the person you are acting as, craft
-a response email in the same tone as sender's previous emails. You should sound like you are {user_email}
-Respond with only the email body and nothing else."""
+a response email in the same tone as sender's previous emails. You should sound like you are {user_email}.
+Respond with only the email body and nothing else. If you don't have enough information to respond to part of the 
+previous email, add a placeholder for the user to fill in."""
 
 MOCK_USER_EMAIL = "steve.grice@pagekey.com"
 
