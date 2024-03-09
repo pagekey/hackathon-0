@@ -8,7 +8,6 @@ router = APIRouter()
 
 @router.get("/")
 def get_user_status(email: str) -> dict[str, str]:
-    logger.info('hello wrold')
     if check_if_paid(email):
         return {"status": "paid"}
     else:
