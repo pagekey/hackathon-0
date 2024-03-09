@@ -1,31 +1,23 @@
-
-export interface Account {
-    provider: 'github' | 'gitlab'
-    username: string
-}
-
-export interface Contribution {
-    date: string
-    count: number
-}
+import { Account } from '@/models/Account';
+import { Contribution } from '@/models/Contribution';
 
 export async function getContributions(account: Account): Promise<Contribution[]> {
-    if (account.provider === 'gitlab') {
-        return await getGitlabContributions(account.username);
-    } else if (account.provider === 'github') {
-        return await getGithubContributions(account.username);
-    } else {
-        return [];
-    }
+  if (account.provider === 'gitlab') {
+    return await getGitlabContributions(account.username);
+  } else if (account.provider === 'github') {
+    return await getGithubContributions(account.username);
+  } else {
+    return [];
+  }
 }
 
 async function getGithubContributions(username: string): Promise<Contribution[]> {
-    return [
-        {
-            date: '2024-03-09',
-            count: 3,
-        },
-    ];
+  return [
+    {
+      date: '2024-03-09',
+      count: 3,
+    },
+  ];
 }
 
 async function getGitlabContributions(username: string): Promise<Contribution[]> {
