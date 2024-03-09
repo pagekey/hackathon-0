@@ -1,10 +1,10 @@
 
-interface Account {
+export interface Account {
     provider: 'github'|'gitlab'
     username: string
 }
 
-interface Contribution {
+export interface Contribution {
     date: string
     count: number
 }
