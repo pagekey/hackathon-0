@@ -15,3 +15,9 @@ cp ~/.docker/config.json .
 ```bash
 kubectl create secret generic gitlab-saas --from-file=.dockerconfigjson=./config.json --type=kubernetes.io/dockerconfigjson
 ```
+
+5. Create .env file secret. (Run from the `chart` folder)
+
+```bash
+kubectl create secret generic email-agent-env --from-literal=ENV_FILE="$(cat ../api/.env)" --dry-run=client -o yaml | kubectl apply -f -
+```
