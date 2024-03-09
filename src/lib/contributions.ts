@@ -1,6 +1,6 @@
 
 export interface Account {
-    provider: 'github'|'gitlab'
+    provider: 'github' | 'gitlab'
     username: string
 }
 
@@ -31,9 +31,17 @@ async function getGithubContributions(username: string): Promise<Contribution[]>
 async function getGitlabContributions(username: string): Promise<Contribution[]> {
     try {
         const response = await fetch(`https://gitlab.com/users/${username}/calendar.json`);
-        const data = await response.json();
-        return data.map(({ date, additions }) => ({ date, count: additions }))
-    } catch(error) {
+        if (response.status == 200) {
+            const data: Map<string, string> = await response.json();
+            const result = Object.entries(data).map(([date, count]) => ({
+                date,
+                count,
+            }));
+            return result;
+        } else {
+            return [];
+        }
+    } catch (error) {
         console.error(error);
         return [];
     }
