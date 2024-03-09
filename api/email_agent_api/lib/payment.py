@@ -1,4 +1,3 @@
-import os
 import stripe
 from email_agent_api.lib.log import logger
 
@@ -8,14 +7,17 @@ from email_agent_api import env
 
 stripe.api_key = env.STRIPE_SECRET_KEY
 
+
 class User(BaseModel):
     email: str
     paid: bool
 
+
 user_cache: dict[str, User] = {}
 
-def check_if_paid(email: str):
-    logger.info('Checking if paid')
+
+def check_if_paid(email: str) -> bool:
+    logger.info("Checking if paid")
     # Check if paid in cache
     if email in user_cache:
         user = user_cache[email]
@@ -29,10 +31,11 @@ def check_if_paid(email: str):
         user_cache[email] = User(email=email, paid=True)
     else:
         user_cache[email] = User(email=email, paid=False)
-    logger.info("Status from stripe: %s"  % stripe_is_paid)
+    logger.info("Status from stripe: %s" % stripe_is_paid)
     return stripe_is_paid
 
-def _check_if_paid_on_stripe(email: str):
+
+def _check_if_paid_on_stripe(email: str) -> bool:
     """
     Checks if an email is paid on Stripe
 
@@ -43,7 +46,7 @@ def _check_if_paid_on_stripe(email: str):
     try:
         # Retrieve the customer associated with the email
         customers = stripe.Customer.list(email=email, limit=1)
-        
+
         if len(customers) > 0:
             customer = customers.data[0]
         else:
@@ -52,13 +55,13 @@ def _check_if_paid_on_stripe(email: str):
         # Check if the customer is subscribed to the specified product
         subscriptions = stripe.Subscription.list(customer=customer.id)
         for subscription in subscriptions.data:
-            items = subscription['items']['data']
+            items = subscription["items"]["data"]
             for item in items:
-                plan_active = item['price']['active']
-                price_id = item['price']['id']
+                plan_active = item["price"]["active"]
+                price_id = item["price"]["id"]
                 if price_id == env.STRIPE_PRICE_ID and plan_active:
                     return True
         return False
-    except stripe.error.StripeError as e:
+    except stripe.StripeError as e:
         print(f"Stripe error: {e}")
         return False

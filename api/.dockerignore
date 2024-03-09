@@ -1,3 +1,7 @@
 .venv
 .*_cache
 __pycache__
+Makefile
+run.sh
+.env
+.env.example

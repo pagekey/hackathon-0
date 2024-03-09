@@ -1,0 +1,43 @@
+{{- range .Values.certs }}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ .secret }}
+  namespace: default
+  labels:
+      {{- include "email-agent.labels" $ | nindent 4 }}
+spec:
+  acme:
+    {{- if .staging }}
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    {{- else }}
+    server: https://acme-v02.api.letsencrypt.org/directory
+    {{- end }}
+    email: {{ .email }}
+    privateKeySecretRef:
+      name: {{ .secret }}
+    solvers:
+    - selector: {}
+      http01:
+        ingress:
+          class: {{ .ingressClass }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .secret }}
+  namespace: default
+  labels:
+    {{- include "email-agent.labels" $ | nindent 4 }}
+spec:
+  secretName: {{ .secret }}
+  issuerRef:
+    name: {{ .secret }}
+    kind: ClusterIssuer
+  commonName: {{ .commonName }}
+  dnsNames:
+  {{- range .dnsNames }}
+    - {{ . }}
+  {{- end }}
+---
+{{- end }}
