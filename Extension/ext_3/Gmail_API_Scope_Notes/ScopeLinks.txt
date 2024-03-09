@@ -1,0 +1,4 @@
+Manage Drafts and Send emails:   https://www.googleapis.com/auth/gmail.addons.current.action.
+Read labels: https://www.googleapis.com/auth/gmail.labels
+compose master labels: https://www.googleapis.com/auth/gmail.compose
+access to all metadata: https://www.googleapis.com/auth/gmail.metadata

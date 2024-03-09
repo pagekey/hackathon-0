@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Windows - Tabs",
+  "version": "3.0",
+  "icons": {
+      "16": "images/icon-0_0.png"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "host_permissions": [
+    "tabs"
+  ],
+  "permissions": [
+    "sessions",
+    "tabs",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  }
+}
