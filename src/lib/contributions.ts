@@ -1,5 +1,5 @@
-import { Account } from "../models/Account";
-import { Contribution } from "../models/Contribution";
+import { Account } from '@/models/Account';
+import { Contribution } from '@/models/Contribution';
 
 export async function getContributions(account: Account): Promise<Contribution[]> {
   if (account.provider === 'gitlab') {

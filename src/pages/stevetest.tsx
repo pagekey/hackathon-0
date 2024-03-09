@@ -4,8 +4,26 @@ import { useEffect } from 'react';
 
 export default function SteveTestPage() {
     const runTest = async () => {
-        const contribs = await getContributions('gitlab', 'stephengrice');
-        console.log(contribs);
+        console.log('sending request')
+        const response = await fetch('/api/contributions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify([
+                {
+                    provider: 'gitlab',
+                    username: 'stephengrice',
+                },
+            ])
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch contributions');
+        }
+
+        const data = await response.json();
+        console.log(data);
     };
     useEffect(() => {
         runTest();
