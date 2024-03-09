@@ -1,6 +1,9 @@
 from fastapi import APIRouter
+from openai import OpenAI
+from email_agent_api import env
 
 router = APIRouter()
+openai_instance = OpenAI(api_key=env.OPENAI_API_KEY)
 
 
 @router.post("/")
