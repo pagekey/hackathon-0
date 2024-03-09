@@ -6,7 +6,7 @@ import { Account } from "@/models/Account";
 
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Account[]>,
+    res: NextApiResponse<{ [date: string]: number }>,
 ) {
     const accounts: Account[] = req.body;
     if (!Array.isArray(accounts) || accounts.some(account => typeof account.provider !== "string" || typeof account.username !== "string")) {
@@ -14,11 +14,14 @@ export default async function handler(
         return;
     }
 
-    const contributionsPromises = accounts.map(async (account) => {
+    let result: { [date: string]: number } = {};
+    for (let i = 0; i < accounts.length; i++) {
+        const account = accounts[i];
         const contributions = await getContributions(account);
-        return contributions;
-    });
-
-    const contributionsList = await Promise.all(contributionsPromises);
-    res.status(200).json(contributionsList);
+        for (let j = 0; j < contributions.length; j++) {
+            const contribution = contributions[j];
+            result[contribution.date] = (result[contribution.date] || 0) + Number(contribution.count); 
+        }
+    }
+    res.status(200).json(result);
 }
