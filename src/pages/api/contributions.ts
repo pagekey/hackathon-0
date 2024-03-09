@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { Account, getContributions } from "@/lib/contributions";
+import { getContributions } from "@/lib/contributions";
+import { Account } from "@/models/Account";
 
 export default async function handler(
   req: NextApiRequest,

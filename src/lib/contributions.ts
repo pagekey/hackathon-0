@@ -1,12 +1,5 @@
-interface Account {
-  provider: 'github' | 'gitlab';
-  username: string;
-}
-
-interface Contribution {
-  date: string;
-  count: number;
-}
+import { Account } from "../models/Account";
+import { Contribution } from "../models/Contribution";
 
 export async function getContributions(account: Account): Promise<Contribution[]> {
   if (account.provider === 'gitlab') {
