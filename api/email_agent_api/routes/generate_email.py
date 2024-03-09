@@ -14,13 +14,14 @@ emails above in the thread along with the name of the person you are acting as, 
 a response email in the same tone as sender's previous emails. You should sound like you are {user_email}
 Respond with only the email content and nothing else."""
 
+MOCK_USER_EMAIL = "steve.grice@pagekey.com"
+
 
 @router.post("/")
 async def generate_email() -> dict[str, str]:
     all_emails: str = "\n\n".join(ALL_EMAILS)
-    user_email = "steve.grice@pagekey.com"
     formatted_system_prompt: str = EMAIL_GENERATION_SYSTEM_PROMPT.format(
-        user_email=user_email
+        user_email=MOCK_USER_EMAIL
     )
     full_prompt: str = f"----Email Thread-----{all_emails}\n-----End Email Thread-----\n\n{formatted_system_prompt}"
     response: str = llm_instance.invoke(full_prompt)
@@ -30,9 +31,8 @@ async def generate_email() -> dict[str, str]:
 @router.post("/stream")
 async def generate_email_stream() -> StreamingResponse:
     all_emails: str = "\n\n".join(ALL_EMAILS)
-    user_email = "steve.grice@pagekey.com"
     formatted_system_prompt: str = EMAIL_GENERATION_SYSTEM_PROMPT.format(
-        user_email=user_email
+        user_email=MOCK_USER_EMAIL
     )
     full_prompt: str = f"----Email Thread-----{all_emails}\n-----End Email Thread-----\n\n{formatted_system_prompt}"
     generator: AsyncIterable[str] = get_llm_message_stream(llm_instance, full_prompt)
