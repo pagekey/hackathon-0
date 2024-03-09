@@ -4,7 +4,7 @@ import { Account } from '@/models/Account';
 import { AddAccount } from '@/components/AddAccount';
 import { AccountList } from '@/components/AccountList';
 import Calendar from 'react-github-contribution-calendar';
-import { Title, Loader, Box, LoadingOverlay } from '@mantine/core';
+import { Title, Box, LoadingOverlay } from '@mantine/core';
 
 export default function Home() {
   const [accounts, setAccounts] = useState<Account[]>([]);
@@ -62,6 +62,7 @@ export default function Home() {
 
       {accounts.length > 0 ? (
         loading ? null : (
+          // @ts-ignore
           <Calendar values={contributions} until={lastDate} />
         )
       ) : (
