@@ -4,7 +4,7 @@ from email_agent_api.lib.log import logger
 
 from pydantic import BaseModel
 
-import email_agent_api.env
+from email_agent_api import env
 
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 STRIPE_PRICE_ID = os.getenv('STRIPE_PRICE_ID')
