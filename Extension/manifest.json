@@ -12,16 +12,24 @@
       "default_popup": "popup.html"
     },
     "host_permissions": [
-      "*://*.google.com/*",
       "http://0.0.0.0:8000/*",
       "https://mail.google.com/*"
     ],
+    "content_scripts": [
+      {
+        "matches": [
+          "https://mail.google.com/*"
+        ],
+        "js": [
+          "deps/jquery.js",
+          "deps/gmail.js",
+          "content.js"
+        ]
+      }
+    ],
     "background": {
-      "base64": "base64.js",
-      "background": "background.js"
-    },
-    "content_security_policy": {
-      "extension_pages": "script-src 'self'"
+      "service_worker": "service_worker.js",
+      "type": "module"
     },
     "oauth2": {
       "client_id": "<clientid>",
