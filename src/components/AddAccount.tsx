@@ -1,4 +1,4 @@
-import { Account } from '@/models/Account';
+import { Account } from '@/pages/models/Account';
 import { Select, Button, TextInput } from '@mantine/core';
 import { useState } from 'react';
 

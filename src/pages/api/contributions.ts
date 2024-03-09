@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { getContributions } from "@/lib/contributions";
-import { Account } from "@/models/Account";
+import { Account } from "@/pages/models/Account";
 
 export default async function handler(
     req: NextApiRequest,

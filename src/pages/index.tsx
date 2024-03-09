@@ -1,6 +1,6 @@
 import { Container } from '@mantine/core';
 import { useState } from 'react';
-import { Account } from '@/models/Account';
+import { Account } from '@/pages/models/Account';
 import { AddAccount } from '@/components/AddAccount';
 import { AccountList } from '@/components/AccountList';
 import Calendar from 'react-github-contribution-calendar';
