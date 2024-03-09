@@ -28,11 +28,15 @@ export default function Home() {
     setLastDate(Object.keys(data).sort().reverse()[0]);
   };
 
+  const handleAccountRemoval = (accountToRemove: Account) => {
+    setAccounts((accounts) => accounts.filter((account) => account !== accountToRemove));
+  };
+
   return (
     <Container>
       <Title order={1}>Code Contribution Heatmap</Title>
       <AddAccount onAccountAdd={(account) => handleAccountAdd(account)} />
-      <AccountList accounts={accounts} />
+      <AccountList accounts={accounts} onAccountRemove={handleAccountRemoval} />
 
       {accounts.length > 0 ? (
         <Calendar values={contributions} until={lastDate} />
