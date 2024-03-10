@@ -1,10 +1,11 @@
 import tiktoken
 from collections.abc import AsyncIterable
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 from pydantic import BaseModel
 from fastapi.responses import StreamingResponse
 from langchain.llms.base import BaseLLM
 from langchain.text_splitter import TokenTextSplitter
+from email_agent_api import env
 from email_agent_api.get_llm_instance import get_llm_instance
 from email_agent_api.lib.mailparser import parse_raw_emails
 from email_agent_api.lib.get_llm_message_stream import get_llm_message_stream
@@ -27,34 +28,33 @@ class EmailRequest(BaseModel):
     raw_emails: str
 
 
+def get_full_prompt_from_raw_emails(raw_emails: str, user_email: str) -> str:
+    all_emails: str = parse_raw_emails(raw_emails)
+    formatted_system_prompt: str = EMAIL_GENERATION_SYSTEM_PROMPT.format(
+        user_email=user_email
+    )
+    encoding: tiktoken.Encoding = tiktoken.encoding_for_model(env.LLM_MODEL_NAME)
+    token_splitter = TokenTextSplitter(
+        encoding_name=encoding.name,
+        model_name=env.LLM_MODEL_NAME,
+    )
+    truncated_emails: str = token_splitter.split_text(all_emails)[-1]
+    return f"----Email Thread-----{truncated_emails}\n-----End Email Thread-----\n\n{formatted_system_prompt}"
+
+
 @router.post("/")
 async def generate_email(request: EmailRequest) -> dict[str, str]:
-    all_emails = parse_raw_emails(request.raw_emails)
-
-    formatted_system_prompt: str = EMAIL_GENERATION_SYSTEM_PROMPT.format(
-        user_email=request.email
+    full_prompt: str = get_full_prompt_from_raw_emails(
+        request.raw_emails, request.email
     )
-    full_prompt: str = f"----Email Thread-----{all_emails}\n-----End Email Thread-----\n\n{formatted_system_prompt}"
-
-    token_splitter = TokenTextSplitter(
-        encoding_name=tiktoken.encoding_for_model(llm_instance.model_name),
-        model_name=llm_instance.model_name
-    )
-    partial_prompt = token_splitter.split_text(full_prompt)[-1]
-
-    response: str = llm_instance.invoke(partial_prompt)
-
-    return {
-        "body": response
-    }
+    response: str = llm_instance.invoke(full_prompt)
+    return {"body": response}
 
 
 @router.post("/stream")
-async def generate_email_stream() -> StreamingResponse:
-    all_emails: str = "\n\n".join(ALL_EMAILS)
-    formatted_system_prompt: str = EMAIL_GENERATION_SYSTEM_PROMPT.format(
-        user_email=MOCK_USER_EMAIL
+async def generate_email_stream(request: EmailRequest) -> StreamingResponse:
+    full_prompt: str = get_full_prompt_from_raw_emails(
+        request.raw_emails, request.email
     )
-    full_prompt: str = f"----Email Thread-----{all_emails}\n-----End Email Thread-----\n\n{formatted_system_prompt}"
     generator: AsyncIterable[str] = get_llm_message_stream(llm_instance, full_prompt)
     return StreamingResponse(generator, media_type="text/event-stream")
