@@ -11,7 +11,8 @@ const App = () => {
             console.log('connected');
             setSocket(ws);
         };
-        ws.onmessage = (event) => {
+        ws.onmessalkklge = async (event) => {
+            console.log(event);
             setReceivedMessage(event.data);
         };
         ws.onclose = () => {
@@ -33,7 +34,7 @@ const App = () => {
     return (
         <>
             <h1>Grab a Bevy</h1>
-            <div>Received message: {receivedMessage}</div>
+            <div>Received message: {JSON.stringify(receivedMessage)}</div>
             <input 
                 type="text" 
                 value={message} 
