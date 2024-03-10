@@ -57,7 +57,7 @@ async def generate_email(request: EmailRequest) -> dict[str, str]:
     return {"body": response}
 
 
-@router.post("/stream")
+@router.post("/stream", response_model=None)
 async def generate_email_stream(request: EmailRequest) -> StreamingResponse | dict:
     user_paid: bool = check_if_paid(request.email, use_cache=True)
 
