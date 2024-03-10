@@ -1,3 +1,4 @@
+from api.email_agent_api.lib.payment import check_if_paid
 import tiktoken
 from collections.abc import AsyncIterable
 from fastapi import APIRouter, Request
@@ -29,24 +30,28 @@ class EmailRequest(BaseModel):
 
 @router.post("/")
 async def generate_email(request: EmailRequest) -> dict[str, str]:
-    all_emails = parse_raw_emails(request.raw_emails)
+    user_paid = check_if_paid(request.email, use_cache=True)
+    if not user_paid:
+        return {"error": "Not paid"}
+    else:
+        all_emails = parse_raw_emails(request.raw_emails)
 
-    formatted_system_prompt: str = EMAIL_GENERATION_SYSTEM_PROMPT.format(
-        user_email=request.email
-    )
-    full_prompt: str = f"----Email Thread-----{all_emails}\n-----End Email Thread-----\n\n{formatted_system_prompt}"
+        formatted_system_prompt: str = EMAIL_GENERATION_SYSTEM_PROMPT.format(
+            user_email=request.email
+        )
+        full_prompt: str = f"----Email Thread-----{all_emails}\n-----End Email Thread-----\n\n{formatted_system_prompt}"
 
-    token_splitter = TokenTextSplitter(
-        encoding_name=tiktoken.encoding_for_model(llm_instance.model_name),
-        model_name=llm_instance.model_name
-    )
-    partial_prompt = token_splitter.split_text(full_prompt)[-1]
+        token_splitter = TokenTextSplitter(
+            encoding_name=tiktoken.encoding_for_model(llm_instance.model_name),
+            model_name=llm_instance.model_name
+        )
+        partial_prompt = token_splitter.split_text(full_prompt)[-1]
 
-    response: str = llm_instance.invoke(partial_prompt)
+        response: str = llm_instance.invoke(partial_prompt)
 
-    return {
-        "body": response
-    }
+        return {
+            "body": response
+        }
 
 
 @router.post("/stream")

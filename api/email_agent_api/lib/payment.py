@@ -16,10 +16,10 @@ class User(BaseModel):
 user_cache: dict[str, User] = {}
 
 
-def check_if_paid(email: str) -> bool:
+def check_if_paid(email: str, use_cache: bool = True) -> bool:
     logger.info("Checking if paid")
     # Check if paid in cache
-    if email in user_cache:
+    if use_cache and email in user_cache:
         user = user_cache[email]
         if user.paid:
             logger.info("User in cache as paid")
