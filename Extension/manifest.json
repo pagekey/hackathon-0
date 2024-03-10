@@ -5,6 +5,7 @@
     "description": "Gmail API Extension",
     "permissions": [
       "identity",
+      "identity.email",
       "webRequest",
       "tabs"
     ],
@@ -15,6 +16,10 @@
       "http://0.0.0.0:8000/*",
       "https://mail.google.com/*"
     ],
+    "background": {
+      "service_worker": "background.js",
+      "type": "module"
+    },
     "content_scripts": [
       {
         "run_at": "document_end",
@@ -28,14 +33,10 @@
         ]
       }
     ],
-    "background": {
-      "service_worker": "service_worker.js",
-      "type": "module"
-    },
     "oauth2": {
-      "client_id": "<clientid>",
+      "client_id": "1026471181570-udfqi3phkkpa5qvmtgaulthpaqmuohml.apps.googleusercontent.com",
       "scopes": [
-        "https://www.googleapis.com/auth/gmail.modify"
+        "https://www.googleapis.com/auth/userinfo.email"
       ]
     }
   }
