@@ -13,32 +13,35 @@
     <div class="card-body">
       <h1 class="title">Email Agent</h1>
 
-      <div id="spinner" class="spinner-border" role="status">
+      <div id="purchase-spinner" class="spinner-border">
         <span class="visually-hidden">Loading...</span>
       </div>
 
-      <div id="authed" class="d-none">
-        <div class="alert alert-success" role="alert">
-          Your subscription is valid
-        </div>
-
-        <a class="btn btn-warning w-100" href="">Cancel</a>
-
+      <div id="oauth" class="d-none">
+        <button class="btn btn-primary" id="oauth-button">
+          Login with Google
+        </button>
       </div>
 
-      <div id="unauthed" class="d-none">
+      <div id="purchase-status" class="d-none">
+        <div id="authed" class="d-none">
+          <div class="alert alert-success" role="alert">
+            Your subscription is valid
+          </div>
 
-        <div class="alert alert-danger" role="alert">
-          Please purchase a subscription
+          <button class="btn btn-warning w-100" id="cancel-purchase">Cancel</button>
         </div>
 
-        <a class="btn btn-success w-100" target="_blank" id="purchase">Purchase</a>
+        <div id="unauthed" class="d-none">
 
-        <hr />
+          <div class="alert alert-danger" role="alert">
+            Please purchase a subscription
+          </div>
 
-        <button class="btn btn-primary w-100" id="purchase-refresh">Refresh</button>
+          <a class="btn btn-success w-100" target="_blank" id="purchase">Purchase</a>
+        </div>
       </div>
-    </div>
+   </div>
   </div>
 
     <script src="./popup.js" type="module"></script>
