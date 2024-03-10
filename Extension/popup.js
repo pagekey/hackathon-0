@@ -36,10 +36,7 @@ const handleAuthCheck = async () => {
     return;
   }
 
-  const res = await fetch(API_URL + '/api/user/', {
-    email,
-  });
-
+  const res = await fetch(API_URL + '/api/user/?email=' + encodeURIComponent(email));
   const status = await res.json();
 
   if (status.active) {
@@ -57,15 +54,15 @@ const removeSpinner = async () => {
 };
 
 const handleAuthed = async () => {
-    removeSpinner();
-    document.getElementById('authed').classList.remove('d-none');
+  removeSpinner();
+  document.getElementById('authed').classList.remove('d-none');
 };
 
 const handleUnauthed = async (stripe_url) => {
-    removeSpinner();
-    document.getElementById('unauthed').classList.remove('d-none');
+  removeSpinner();
+  document.getElementById('unauthed').classList.remove('d-none');
 
-    document.getElementById('purchase').href = stripe_url;
+  document.getElementById('purchase').href = stripe_url;
 };
 
 // Event Listeners
