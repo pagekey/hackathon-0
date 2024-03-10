@@ -9,6 +9,7 @@ from email_agent_api import env
 from email_agent_api.get_llm_instance import get_llm_instance
 from email_agent_api.lib.mailparser import parse_raw_emails
 from email_agent_api.lib.get_llm_message_stream import get_llm_message_stream
+from email_agent_api.lib.payment import check_if_paid
 
 router = APIRouter()
 llm_instance: BaseLLM = get_llm_instance()
@@ -44,6 +45,11 @@ def get_full_prompt_from_raw_emails(raw_emails: str, user_email: str) -> str:
 
 @router.post("/")
 async def generate_email(request: EmailRequest) -> dict[str, str]:
+    user_paid: bool = check_if_paid(request.email, use_cache=True)
+
+    if not user_paid:
+        return {"error": "Not paid"}
+
     full_prompt: str = get_full_prompt_from_raw_emails(
         request.raw_emails, request.email
     )
@@ -52,7 +58,12 @@ async def generate_email(request: EmailRequest) -> dict[str, str]:
 
 
 @router.post("/stream")
-async def generate_email_stream(request: EmailRequest) -> StreamingResponse:
+async def generate_email_stream(request: EmailRequest) -> StreamingResponse | dict:
+    user_paid: bool = check_if_paid(request.email, use_cache=True)
+
+    if not user_paid:
+        return {"error": "Not paid"}
+
     full_prompt: str = get_full_prompt_from_raw_emails(
         request.raw_emails, request.email
     )
