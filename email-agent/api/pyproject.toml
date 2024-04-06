@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "email-agent-api"
+version = "0.1.0"
+description = ""
+authors = ["PageKeyers"]
+readme = "README.md"
+packages = [{ include = "email_agent_api" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.110.0"
+python-dotenv = "^1.0.1"
+stripe = "^8.6.0"
+uvicorn = "^0.28.0"
+langchain = "^0.1.11"
+openai = "0.28"
+pydantic = "^2.6.3"
+mail-parser = "^3.15.0"
+tiktoken = "^0.6.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
